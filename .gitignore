@@ -4,6 +4,7 @@
 lerna-debug.log
 yarn-error.log
 npm-debug.log
+node_modules
 
 # intellij files
 **/*.iml
