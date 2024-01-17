@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  database:
+    build:
+      context: .
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '${PORT:-5432}:5432'
+  redis:
+    image: redis:6.0.5-alpine3.12
+    command: sh -c 'redis-server --requirepass "1qaz2wsX"'
+    ports:
+      - '${PORT:-6379}:6379'
