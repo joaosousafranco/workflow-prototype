@@ -1,4 +1,5 @@
-import { buildProjectHello } from './business'
+import { WorkflowHandler } from './communication/events/WorkflowHandler'
 
-// eslint-disable-next-line no-console
-console.log(buildProjectHello('template'))
+const workflowHandler = new WorkflowHandler()
+
+workflowHandler.start()

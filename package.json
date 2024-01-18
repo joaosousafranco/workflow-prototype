@@ -22,6 +22,7 @@
     "update-deps": "ncu -u && for f in packages/**; do cd $f && npx ncu -u && cd ../..; done"
   },
   "devDependencies": {
+    "@types/node": "20.11.5",
     "@types/jest": "29.5.11",
     "@typescript-eslint/eslint-plugin": "6.19.0",
     "@typescript-eslint/parser": "6.19.0",

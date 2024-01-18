@@ -1,11 +1,7 @@
 module.exports = {
   collectCoverageFrom: ['src/**/*.{ts,js}'],
   coverageDirectory: 'coverage',
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    'index.ts',
-    'EventEmitterPubSubAdapter.ts',
-  ],
+  coveragePathIgnorePatterns: ['/node_modules/', 'index.ts'],
   moduleFileExtensions: ['js', 'json', 'ts'],
   modulePathIgnorePatterns: ['<rootDir>/.*/__mocks__'],
   reporters: ['default', 'jest-junit'],
@@ -15,4 +11,4 @@ module.exports = {
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
-}
+};
