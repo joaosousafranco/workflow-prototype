@@ -26,7 +26,7 @@ describe('WorkflowHandler', () => {
 
         await workflowHandler.start()
 
-        mockedPubSubAdapter.publish(
+        mockedPubSubAdapter.emit(
           event,
           new EventPayload('test-tenant', {
             event,

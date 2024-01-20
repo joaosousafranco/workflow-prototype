@@ -11,8 +11,8 @@
     "clean": "npm run clean:build; rm -rf node_modules",
     "clean:build": "rm -rf dist; rm -rf coverage",
     "lint": "eslint . --quiet --fix --ext .ts,.tsx",
-    "start": "npm run build && node dist/index.js",
-    "start:watch": "node --watch dist/index.js",
+    "start": "npm run build && node --env-file ./.env.local dist/index.js",
+    "start:watch": "node --env-file ./.env.local --watch dist/index.js",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll"

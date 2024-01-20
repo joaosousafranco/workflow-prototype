@@ -1,11 +1,10 @@
 import { RedisClientType, createClient } from 'redis'
 import { BusinessEvent } from '../../../domain/models/BusinessEvents'
-import { EventPayload } from '../../../domain/models/EventPayload'
 import { PubSubAdapter, SubscribeHandler } from './PubSubAdapter'
 
 type RedisPubSubAdapterConfig = {
   host?: string
-  port?: number
+  port?: string
   username?: string
   password?: string
 }
@@ -21,7 +20,7 @@ export class RedisPubSubAdapter implements PubSubAdapter {
     const { host, port, username, password } = this.config
 
     this.client = createClient({
-      url: `redis://${username || ''}:${password || ''}@${host || ''}:${port || ''}`,
+      url: `redis://${username}:${password}@${host}:${port}`,
     })
 
     await this.client.connect()
@@ -33,9 +32,5 @@ export class RedisPubSubAdapter implements PubSubAdapter {
       // TODO: add error handling, message parse throws
       handler(JSON.parse(message))
     })
-  }
-
-  public publish<P, T extends EventPayload<P>>(event: BusinessEvent, message: T): void {
-    this.client.publish(event, JSON.stringify(message))
   }
 }

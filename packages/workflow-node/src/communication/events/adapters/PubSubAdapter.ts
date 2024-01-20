@@ -7,6 +7,4 @@ export interface PubSubAdapter {
   connect(): Promise<void>
 
   subscribe(event: BusinessEvent, handler: SubscribeHandler): void
-
-  publish<P, T extends EventPayload<P>>(event: BusinessEvent, message: T): void
 }

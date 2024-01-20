@@ -1,3 +1,4 @@
+import { configuration } from '../../../configuration'
 import { EventEmitterPubSubAdapter } from './EventEmitterPubSubAdapter'
 import { PubSubAdapter } from './PubSubAdapter'
 import { PubSubAdapterNotImplementedError } from './PubSubAdapterNotImplementedError'
@@ -13,11 +14,7 @@ export const createPubSubAdapter = async (
       adapter = new EventEmitterPubSubAdapter()
       break
     case 'redis':
-      adapter = new RedisPubSubAdapter({
-        host: '127.0.0.1',
-        port: 6379,
-        password: '1qaz2wsX',
-      })
+      adapter = new RedisPubSubAdapter(configuration.redis)
       break
     default:
       throw new PubSubAdapterNotImplementedError(adapterType)
