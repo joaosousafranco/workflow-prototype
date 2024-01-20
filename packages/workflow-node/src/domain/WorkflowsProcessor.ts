@@ -1,10 +1,15 @@
+import { fetchWorkflow } from '../adapters/WorkflowManagerAdapter'
+import { executeWorkflow } from './WorkflowRunner'
 import { BusinessEvent } from './models/BusinessEvents'
 import { EventPayload } from './models/EventPayload'
 
 export const processMessage = async <T>(
   event: BusinessEvent,
-  message: EventPayload<T>,
+  { tenantId, metadata }: EventPayload<T>,
 ): Promise<void> => {
-  // eslint-disable-next-line no-console
-  console.log(`Processing message ${event} with payload ${JSON.stringify(message)}`)
+  const { workflow, initialStep } = await fetchWorkflow({ tenantId, event })
+
+  // TODO: log if workflow is not found
+
+  executeWorkflow({ workflow, step: initialStep, metadata })
 }
