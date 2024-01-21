@@ -2,10 +2,20 @@
 import { CustomError } from '@workflow-prototype/library'
 import { Workflow } from './Workflow'
 
-export abstract class WorkflowStep<T = unknown> {
-  public truthyNextStep?: WorkflowStep<T>
+export type WorkflowStepOptions = {
+  truthyNextStep?: WorkflowStep
+  falsyNextStep?: WorkflowStep
+}
 
-  public falsyNextStep?: WorkflowStep<T>
+export abstract class WorkflowStep<T = unknown> {
+  public readonly truthyNextStep?: WorkflowStep<T>
+
+  public readonly falsyNextStep?: WorkflowStep<T>
+
+  constructor({ truthyNextStep, falsyNextStep }: WorkflowStepOptions = {}) {
+    this.truthyNextStep = truthyNextStep
+    this.falsyNextStep = falsyNextStep
+  }
 
   public abstract execute<R>(data: {
     workflow: Workflow

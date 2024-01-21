@@ -5,4 +5,7 @@ export const configuration = {
     username: process.env.REDIS_USERNAME || '',
     password: process.env.REDIS_PASSWORD || '',
   },
+  workflowManager: {
+    baseUrl: process.env.WORKFLOW_MANAGER_BASE_URL || 'http://localhost:3000',
+  },
 }

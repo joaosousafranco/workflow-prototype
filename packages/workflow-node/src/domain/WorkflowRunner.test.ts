@@ -29,7 +29,7 @@ describe('WorkflowRunner', () => {
 
     it('executes a workflows with multiple steps', async () => {
       const executeMock = jest.fn()
-      class WorkflowStepMock implements WorkflowStep {
+      class WorkflowStepMock extends WorkflowStep {
         public truthyNextStep?: WorkflowStep
 
         public falsyNextStep?: WorkflowStep
@@ -44,9 +44,11 @@ describe('WorkflowRunner', () => {
         event: 'some-event',
       }
 
-      const initialStep = new WorkflowStepMock()
-      initialStep.truthyNextStep = new WorkflowStepMock()
-      initialStep.truthyNextStep.truthyNextStep = new WorkflowStepMock()
+      const initialStep = new WorkflowStepMock({
+        truthyNextStep: new WorkflowStepMock({
+          truthyNextStep: new WorkflowStepMock(),
+        }),
+      })
 
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 
@@ -56,14 +58,14 @@ describe('WorkflowRunner', () => {
 
     it('executes a workflows with falsy conditional steps', async () => {
       const executeMock = jest.fn()
-      class WorkflowStepMock implements WorkflowStep {
+      class WorkflowStepMock extends WorkflowStep {
         public truthyNextStep?: WorkflowStep
 
         public falsyNextStep?: WorkflowStep
 
         public execute = executeMock
       }
-      class WorkflowStepConditionalMock implements WorkflowStep {
+      class WorkflowStepConditionalMock extends WorkflowStep {
         public truthyNextStep?: WorkflowStep
 
         public falsyNextStep?: WorkflowStep
@@ -78,9 +80,11 @@ describe('WorkflowRunner', () => {
         event: 'some-event',
       }
 
-      const initialStep = new WorkflowStepMock()
-      initialStep.truthyNextStep = new WorkflowStepConditionalMock()
-      initialStep.truthyNextStep.truthyNextStep = new WorkflowStepMock()
+      const initialStep = new WorkflowStepMock({
+        truthyNextStep: new WorkflowStepConditionalMock({
+          truthyNextStep: new WorkflowStepMock(),
+        }),
+      })
 
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 
@@ -90,14 +94,14 @@ describe('WorkflowRunner', () => {
 
     it('executes a workflows with truthy conditional steps', async () => {
       const executeMock = jest.fn()
-      class WorkflowStepMock implements WorkflowStep {
+      class WorkflowStepMock extends WorkflowStep {
         public truthyNextStep?: WorkflowStep
 
         public falsyNextStep?: WorkflowStep
 
         public execute = executeMock
       }
-      class WorkflowStepConditionalMock implements WorkflowStep {
+      class WorkflowStepConditionalMock extends WorkflowStep {
         public truthyNextStep?: WorkflowStep
 
         public falsyNextStep?: WorkflowStep
@@ -112,9 +116,11 @@ describe('WorkflowRunner', () => {
         event: 'some-event',
       }
 
-      const initialStep = new WorkflowStepMock()
-      initialStep.truthyNextStep = new WorkflowStepConditionalMock()
-      initialStep.truthyNextStep.truthyNextStep = new WorkflowStepMock()
+      const initialStep = new WorkflowStepMock({
+        truthyNextStep: new WorkflowStepConditionalMock({
+          truthyNextStep: new WorkflowStepMock(),
+        }),
+      })
 
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 
@@ -124,14 +130,14 @@ describe('WorkflowRunner', () => {
 
     it('stops workflow execution when a error occurs', async () => {
       const executeMock = jest.fn()
-      class WorkflowStepMock implements WorkflowStep {
+      class WorkflowStepMock extends WorkflowStep {
         public truthyNextStep?: WorkflowStep
 
         public falsyNextStep?: WorkflowStep
 
         public execute = executeMock
       }
-      class WorkflowStepErrorMock implements WorkflowStep {
+      class WorkflowStepErrorMock extends WorkflowStep {
         public truthyNextStep?: WorkflowStep
 
         public falsyNextStep?: WorkflowStep
@@ -146,9 +152,11 @@ describe('WorkflowRunner', () => {
         event: 'some-event',
       }
 
-      const initialStep = new WorkflowStepMock()
-      initialStep.truthyNextStep = new WorkflowStepErrorMock()
-      initialStep.truthyNextStep.truthyNextStep = new WorkflowStepMock()
+      const initialStep = new WorkflowStepMock({
+        truthyNextStep: new WorkflowStepErrorMock({
+          truthyNextStep: new WorkflowStepMock(),
+        }),
+      })
 
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 

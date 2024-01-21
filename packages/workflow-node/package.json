@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@workflow-prototype/library": "^0.0.1",
+    "axios": "1.6.5",
     "redis": "4.6.12"
   }
 }
