@@ -1,0 +1,13 @@
+.Incident-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  padding: 30px;
+}
+
+.Incident-form > * {
+  margin: 10px;
+  width: 100%;
+}

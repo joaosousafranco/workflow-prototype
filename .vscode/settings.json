@@ -10,8 +10,8 @@
     "packages/**/src/**/*.js.map": true,
     "packages/**/tests/**/*.js": true,
     "packages/**/tests/**/*.js.map": true,
-    "packages/**/dist": true,
-    "packages/**/node_modules": true,
+    // "packages/**/dist": true,
+    // "packages/**/node_modules": true,
     "dist": true
   },
   "editor.tabSize": 2,
