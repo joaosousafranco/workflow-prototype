@@ -1,0 +1,28 @@
+{
+  "name": "@workflow-prototype/incident-management",
+  "version": "0.0.1",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "next build",
+    "clean": "rm -rf node_modules",
+    "lint": "next lint",
+    "start": "next start",
+    "start:dev": "next dev",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "test:watch": "jest --watchAll"
+  },
+  "dependencies": {
+    "next": "14.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "redis": "4.6.12"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18"
+  }
+}
