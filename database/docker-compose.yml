@@ -1,14 +1,6 @@
 version: '3'
 
 services:
-  workflow-prototype-database:
-    build:
-      context: .
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - '${PORT:-5432}:5432'
   workflow-prototype-redis:
     image: redis:7.2.4-alpine
     command: sh -c 'redis-server --requirepass "1qaz2wsX"'

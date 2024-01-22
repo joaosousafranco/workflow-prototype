@@ -9,8 +9,8 @@
     "build": "next build",
     "clean": "rm -rf node_modules",
     "lint": "next lint",
-    "start": "next start",
-    "start:dev": "next dev",
+    "start": "next start -p 3000",
+    "start:dev": "next dev -p 3000",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll"
@@ -18,7 +18,8 @@
   "dependencies": {
     "next": "14.1.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "redis": "4.6.12"
   },
   "devDependencies": {
     "@types/react": "18.2.48",

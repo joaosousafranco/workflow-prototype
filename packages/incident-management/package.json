@@ -9,8 +9,8 @@
     "build": "next build",
     "clean": "rm -rf node_modules",
     "lint": "next lint",
-    "start": "next start",
-    "start:dev": "next dev",
+    "start": "next start -p 3001",
+    "start:dev": "next dev -p 3001",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll"

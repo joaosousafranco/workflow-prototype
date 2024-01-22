@@ -11,14 +11,14 @@ type WorkflowResponseStep = {
   falsyNextStep?: WorkflowResponseStep
 }
 
-type WorkflowResponse = {
-  workflow: {
+type WorkflowsResponse = {
+  workflows: {
     id: string
     name: string
     tenantId: string
     event: string
-  }
-  initialStep: WorkflowResponseStep
+    initialStep: WorkflowResponseStep
+  }[]
 }
 
 const WORKFLOW_STEPS_MAP: {
@@ -53,15 +53,16 @@ export const fetchWorkflow = async ({
 }): Promise<{ workflow: Workflow; initialStep?: WorkflowStep }> => {
   // TODO: Add error handling
 
-  const workflowResponse = await axios<WorkflowResponse>(
-    `${configuration.workflowManager.baseUrl}/workflow?tenantId=${tenantId}&event=${event}`,
+  const workflowResponse = await axios<WorkflowsResponse>(
+    `${configuration.workflowManager.baseUrl}/api/tenant/${tenantId}/workflow?event=${event}`,
     {},
   )
 
-  const { workflow, initialStep } = workflowResponse.data
+  const { id, name, initialStep } = (workflowResponse.data as WorkflowsResponse)
+    .workflows[0]
 
   return {
-    workflow,
+    workflow: { id, name, tenantId, event },
     initialStep: buildWorkflowFromResponse({ initialStep }),
   }
 }
