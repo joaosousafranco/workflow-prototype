@@ -6,13 +6,22 @@
   "author": "",
   "main": "index.js",
   "scripts": {
-    "build": "npm run clean:build && npm run lint && tsc",
-    "clean": "npm run clean:build; rm -rf node_modules",
-    "clean:build": "rm -rf dist; rm -rf coverage",
-    "lint": "eslint . --quiet --fix --ext .ts,.tsx",
-    "start": "npm run build && node dist/src/index.js",
+    "build": "next build",
+    "clean": "rm -rf node_modules",
+    "lint": "next lint",
+    "start": "next start",
+    "start:dev": "next dev",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:watch": "jest --watchAll"
+  },
+  "dependencies": {
+    "next": "14.1.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18"
   }
 }
