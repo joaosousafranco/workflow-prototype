@@ -64,6 +64,7 @@ export const fetchWorkflow = async ({
     {},
   )
 
+  // TODO: add support to return multiple workflows
   const { id, name, initialStep } = workflowResponse.data.workflows[0]
 
   return {

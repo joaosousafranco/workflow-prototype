@@ -10,30 +10,35 @@ describe('WorkflowManagerAdapter', () => {
   describe('#fetchWorkflow', () => {
     it('fetches a workflow from workflow manager', async () => {
       nock(configuration.workflowManager.baseUrl)
-        .get('/workflow')
-        .query({ tenantId: 'some-tenant-id', event: 'some-event' })
+        .get('/api/tenant/some-tenant-id/workflow')
+        .query({ event: 'some-event' })
         .reply(200, {
-          workflow: {
-            id: 'some-workflow-id',
-            name: 'some-workflow-name',
-            tenantId: 'some-tenant-id',
-            event: 'some-event',
-          },
-          initialStep: {
-            name: 'LogWorkflowStep',
-            truthyNextStep: {
-              name: 'ConditionWorkflowStep',
-              truthyNextStep: {
+          workflows: [
+            {
+              id: 'some-workflow-id',
+              name: 'some-workflow-name',
+              tenantId: 'some-tenant-id',
+              event: 'some-event',
+              initialStep: {
                 name: 'LogWorkflowStep',
-              },
-              falsyNextStep: {
-                name: 'ConditionWorkflowStep',
+                metadata: { prefix: 'Starting' },
+                truthyNextStep: {
+                  name: 'ConditionWorkflowStep',
+                  metadata: [
+                    {
+                      parameter: 'some-parameter',
+                      value: 'some-value',
+                      operator: '===',
+                    },
+                  ],
+                },
                 falsyNextStep: {
                   name: 'LogWorkflowStep',
+                  metadata: { prefix: 'Falsy' },
                 },
               },
             },
-          },
+          ],
         })
 
       const workflow = await fetchWorkflow({
@@ -49,12 +54,17 @@ describe('WorkflowManagerAdapter', () => {
           event: 'some-event',
         },
         initialStep: new LogWorkflowStep({
+          metadata: { prefix: 'Starting' },
           truthyNextStep: new ConditionWorkflowStep({
-            truthyNextStep: new LogWorkflowStep(),
-            falsyNextStep: new ConditionWorkflowStep({
-              falsyNextStep: new LogWorkflowStep(),
-            }),
+            metadata: [
+              {
+                parameter: 'some-parameter',
+                value: 'some-value',
+                operator: '===',
+              },
+            ],
           }),
+          falsyNextStep: new LogWorkflowStep({ metadata: { prefix: 'Falsy' } }),
         }),
       })
     })

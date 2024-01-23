@@ -2,8 +2,8 @@ import * as WorkflowsProcessor from '../../domain/WorkflowsProcessor'
 import { BusinessEvent, BusinessEvents } from '../../domain/models/BusinessEvents'
 import { EventPayload } from '../../domain/models/EventPayload'
 import { WorkflowHandler } from './WorkflowHandler'
-import { EventEmitterPubSubAdapter } from './adapters/EventEmitterPubSubAdapter'
-import * as PubSubAdapterFactory from './adapters/PubSubAdapterFactory'
+import { EventEmitterPubSubProvider } from './providers/EventEmitterPubSubProvider'
+import * as PubSubProviderFactory from './providers/PubSubProviderFactory'
 
 describe('WorkflowHandler', () => {
   afterEach(jest.clearAllMocks)
@@ -12,11 +12,11 @@ describe('WorkflowHandler', () => {
     it.each(Object.values(BusinessEvents))(
       'handle message for event %s',
       async (event: BusinessEvent) => {
-        const mockedPubSubAdapter = new EventEmitterPubSubAdapter()
+        const mockedPubSubProvider = new EventEmitterPubSubProvider()
 
         jest
-          .spyOn(PubSubAdapterFactory, 'createPubSubAdapter')
-          .mockResolvedValue(mockedPubSubAdapter)
+          .spyOn(PubSubProviderFactory, 'createPubSubProvider')
+          .mockResolvedValue(mockedPubSubProvider)
 
         const processWorkflowsSpy = jest
           .spyOn(WorkflowsProcessor, 'processMessage')
@@ -26,7 +26,7 @@ describe('WorkflowHandler', () => {
 
         await workflowHandler.start()
 
-        mockedPubSubAdapter.emit(
+        mockedPubSubProvider.emit(
           event,
           new EventPayload('test-tenant', {
             event,

@@ -24,7 +24,10 @@ describe('WorkflowRunner', () => {
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 
       expect(workflowStepMock.execute).toHaveBeenCalledTimes(1)
-      expect(workflowStepMock.execute).toHaveBeenCalledWith({ workflow, metadata: {} })
+      expect(workflowStepMock.execute).toHaveBeenCalledWith({
+        workflow,
+        workflowData: {},
+      })
     })
 
     it('executes a workflows with multiple steps', async () => {
@@ -53,7 +56,7 @@ describe('WorkflowRunner', () => {
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 
       expect(executeMock).toHaveBeenCalledTimes(3)
-      expect(executeMock).toHaveBeenCalledWith({ workflow, metadata: {} })
+      expect(executeMock).toHaveBeenCalledWith({ workflow, workflowData: {} })
     })
 
     it('executes a workflows with falsy conditional steps', async () => {
@@ -89,7 +92,7 @@ describe('WorkflowRunner', () => {
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 
       expect(executeMock).toHaveBeenCalledTimes(1)
-      expect(executeMock).toHaveBeenCalledWith({ workflow, metadata: {} })
+      expect(executeMock).toHaveBeenCalledWith({ workflow, workflowData: {} })
     })
 
     it('executes a workflows with truthy conditional steps', async () => {
@@ -125,7 +128,7 @@ describe('WorkflowRunner', () => {
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 
       expect(executeMock).toHaveBeenCalledTimes(2)
-      expect(executeMock).toHaveBeenCalledWith({ workflow, metadata: {} })
+      expect(executeMock).toHaveBeenCalledWith({ workflow, workflowData: {} })
     })
 
     it('stops workflow execution when a error occurs', async () => {
@@ -161,7 +164,7 @@ describe('WorkflowRunner', () => {
       await executeWorkflow({ workflow, step: initialStep, metadata: {} })
 
       expect(executeMock).toHaveBeenCalledTimes(1)
-      expect(executeMock).toHaveBeenCalledWith({ workflow, metadata: {} })
+      expect(executeMock).toHaveBeenCalledWith({ workflow, workflowData: {} })
     })
   })
 })

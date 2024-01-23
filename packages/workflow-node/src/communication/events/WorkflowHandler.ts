@@ -1,14 +1,14 @@
 import { processMessage } from '../../domain/WorkflowsProcessor'
 import { BusinessEvents } from '../../domain/models/BusinessEvents'
 import { EventPayload } from '../../domain/models/EventPayload'
-import { createPubSubAdapter } from './adapters/PubSubAdapterFactory'
+import { createPubSubProvider } from './providers/PubSubProviderFactory'
 
 export class WorkflowHandler {
   public async start(): Promise<void> {
-    const pubSubAdapter = await createPubSubAdapter('redis')
+    const pubSubProvider = await createPubSubProvider('redis')
 
     BusinessEvents.forEach((event) => {
-      pubSubAdapter.subscribe(event, (message: EventPayload<unknown>) => {
+      pubSubProvider.subscribe(event, (message: EventPayload<unknown>) => {
         processMessage(event, message)
       })
     })
