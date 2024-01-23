@@ -1,15 +1,12 @@
-import { Workflow } from '../models/Workflow'
 import { WorkflowStep } from '../models/WorkflowStep'
 
-export class LogWorkflowStep extends WorkflowStep {
-  public async execute({
-    workflow,
-    metadata,
-  }: {
-    workflow: Workflow
-    metadata: unknown
-  }): Promise<void> {
+export type LogWorkflowStepMetadata = {
+  prefix: string
+}
+
+export class LogWorkflowStep extends WorkflowStep<LogWorkflowStepMetadata> {
+  public async execute(): Promise<void> {
     // eslint-disable-next-line no-console
-    console.log('LogWorkflowStep', { workflow, metadata })
+    console.log('LogWorkflowStep - ', this.metadata?.prefix)
   }
 }

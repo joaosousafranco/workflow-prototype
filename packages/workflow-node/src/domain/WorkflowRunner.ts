@@ -2,7 +2,7 @@ import { CustomError, isError } from '@workflow-prototype/library'
 import { Workflow } from './models/Workflow'
 import { WorkflowStep } from './models/WorkflowStep'
 
-export const executeWorkflow = async <T>({
+export const executeWorkflow = async <T = unknown>({
   workflow,
   step,
   metadata,
@@ -11,7 +11,7 @@ export const executeWorkflow = async <T>({
   step: WorkflowStep
   metadata: T
 }): Promise<void> => {
-  const resultOrError = await step.execute({ workflow, metadata })
+  const resultOrError = await step.execute({ workflow, workflowData: metadata })
 
   if (isError(CustomError)(resultOrError)) {
     // TODO: log error

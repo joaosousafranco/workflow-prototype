@@ -2,11 +2,15 @@ import axios from 'axios'
 import { configuration } from '../configuration'
 import { Workflow } from '../domain/models/Workflow'
 import { WorkflowStep, WorkflowStepOptions } from '../domain/models/WorkflowStep'
-import { ConditionWorkflowStep } from '../domain/steps/ConditionWorkflowStep'
-import { LogWorkflowStep } from '../domain/steps/LogWorkflowStep'
+import {
+  ConditionWorkflowStep,
+  ConditionWorkflowStepMetadata,
+} from '../domain/steps/ConditionWorkflowStep'
+import { LogWorkflowStep, LogWorkflowStepMetadata } from '../domain/steps/LogWorkflowStep'
 
 type WorkflowResponseStep = {
   name: string
+  metadata?: unknown
   truthyNextStep?: WorkflowResponseStep
   falsyNextStep?: WorkflowResponseStep
 }
@@ -24,9 +28,10 @@ type WorkflowsResponse = {
 const WORKFLOW_STEPS_MAP: {
   [key: string]: (options: WorkflowStepOptions) => WorkflowStep
 } = {
-  ConditionWorkflowStep: (options: WorkflowStepOptions) =>
+  ConditionWorkflowStep: (options: WorkflowStepOptions<ConditionWorkflowStepMetadata>) =>
     new ConditionWorkflowStep(options),
-  LogWorkflowStep: (options: WorkflowStepOptions) => new LogWorkflowStep(options),
+  LogWorkflowStep: (options: WorkflowStepOptions<LogWorkflowStepMetadata>) =>
+    new LogWorkflowStep(options),
 }
 
 const buildWorkflowFromResponse = ({
@@ -36,6 +41,7 @@ const buildWorkflowFromResponse = ({
 }): WorkflowStep =>
   // TODO: Add error handling
   WORKFLOW_STEPS_MAP[initialStep.name]({
+    metadata: initialStep.metadata,
     truthyNextStep: initialStep.truthyNextStep
       ? buildWorkflowFromResponse({ initialStep: initialStep.truthyNextStep })
       : undefined,
@@ -58,8 +64,7 @@ export const fetchWorkflow = async ({
     {},
   )
 
-  const { id, name, initialStep } = (workflowResponse.data as WorkflowsResponse)
-    .workflows[0]
+  const { id, name, initialStep } = workflowResponse.data.workflows[0]
 
   return {
     workflow: { id, name, tenantId, event },
