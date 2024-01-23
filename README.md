@@ -1,5 +1,9 @@
 # Workflow Automation Prototype
 
+## High level architecture
+
+<img title="High level architecture" alt="High level architecture" src="/docs/workflow-prototype.png">
+
 ## Usage
 
 - Start redis instance
